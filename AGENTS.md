@@ -13,4 +13,5 @@ Build app UI in `src/`. Keep `.openai/hosting.json`, `worker/index.js`, `scripts
 - The user selected visual concept 2: a dark, cinematic product showcase centered on the digital business card and iPhone.
 - Keep the website in German and present CardDisplay as an iPhone app for scanning/importing, designing, and showing or sharing digital business cards.
 - Use the supplied app icon and screenshot, plus the generated product imagery in `public/assets/`.
+- Keep the user-supplied GymMix/iPhone image as the hero. Preserve its full composition on phones and limit hero-image parallax to the available top/bottom breathing room. Apply restrained parallax to copy, headings, cards, and product imagery while respecting reduced-motion settings.
 - The requested publishing destination is the `alexanderkaufi/CardDisplay` GitHub repository.

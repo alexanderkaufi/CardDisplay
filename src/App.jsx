@@ -37,7 +37,7 @@ export function App() {
   const closeMenu = () => setMenuOpen(false);
 
   useEffect(() => {
-    const targets = document.querySelectorAll("[data-parallax]");
+    const targets = document.querySelectorAll("[data-parallax], [data-parallax-item]");
     const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
     let frame = 0;
 
@@ -56,23 +56,45 @@ export function App() {
         }
 
         const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+        const compactViewport = window.matchMedia("(max-width: 780px)").matches;
         targets.forEach((target) => {
           const bounds = target.getBoundingClientRect();
-          if (bounds.bottom < -80 || bounds.top > viewportHeight + 80) return;
+          const isContentItem = target.hasAttribute("data-parallax-item");
+          const currentOffset = Number.parseFloat(target.style.getPropertyValue("--parallax-y")) || 0;
+          const stableTop = bounds.top - (isContentItem ? currentOffset : 0);
+          const height = target.offsetHeight || bounds.height;
+          if (stableTop + height < -80 || stableTop > viewportHeight + 80) return;
 
-          const compactViewport = window.matchMedia("(max-width: 780px)").matches;
-          const image = target.firstElementChild;
-          const imageScaleY = Number.parseFloat(
-            window.getComputedStyle(image).getPropertyValue("--parallax-scale-y"),
-          ) || 1.1;
-          const visibleBleed = Math.max(0, (bounds.height * (imageScaleY - 1)) / 2 - 2);
-          const maxRange = compactViewport ? 46 : 88;
-          const range = Math.min(Number(target.dataset.parallax) || 0, maxRange, visibleBleed);
+          const requestedRange = Number(
+            isContentItem ? target.dataset.parallaxItem : target.dataset.parallax,
+          ) || 0;
+          const maxRange = isContentItem
+            ? compactViewport ? 28 : 40
+            : compactViewport ? 46 : 88;
+          let visibleBleed = maxRange;
+
+          if (!isContentItem) {
+            const image = target.firstElementChild;
+            if (!image) return;
+            const imageScaleY = Number.parseFloat(
+              window.getComputedStyle(image).getPropertyValue("--parallax-scale-y"),
+            ) || 1.08;
+            const zoomBleed = (image.offsetHeight * (imageScaleY - 1)) / 2;
+            if (target.classList.contains("hero-art")) {
+              const reservedSpace = Math.max(0, (target.clientHeight - image.offsetHeight) / 2);
+              visibleBleed = Math.max(0, reservedSpace - zoomBleed - 2);
+            } else {
+              visibleBleed = Math.max(0, zoomBleed - 2);
+            }
+          }
+
+          const range = Math.min(requestedRange, maxRange, visibleBleed);
           const progress = Math.max(
             0,
-            Math.min(1, (viewportHeight - bounds.top) / (viewportHeight + bounds.height)),
+            Math.min(1, (viewportHeight - stableTop) / (viewportHeight + height)),
           );
-          const offset = (0.5 - progress) * 2 * range;
+          const direction = target.dataset.parallaxDirection === "reverse" ? -1 : 1;
+          const offset = (0.5 - progress) * 2 * range * direction;
           target.style.setProperty("--parallax-y", `${offset.toFixed(1)}px`);
         });
       });
@@ -161,15 +183,15 @@ export function App() {
 
       <main id="main-content">
         <section className="hero" id="start" aria-labelledby="hero-title">
-            <div className="hero-art" data-parallax="100">
+          <div className="hero-art" data-parallax="100">
             <img
               src={asset("hero-carddisplay.jpg")}
-              alt="Eine digitale Visitenkarte und ein iPhone mit CardDisplay auf dunklem Untergrund."
+              alt="Eine digitale GymMix-Visitenkarte neben einem iPhone mit CardDisplay."
               fetchPriority="high"
             />
           </div>
 
-          <div className="container hero-copy">
+          <div className="container hero-copy" data-parallax-item="16">
             <p className="eyebrow">ZEIG DEINE KARTE</p>
             <h1 id="hero-title">
               Deine Karte.
@@ -201,7 +223,7 @@ export function App() {
 
         <section className="steps-section section-pad" id="ablauf" aria-labelledby="steps-title">
           <div className="container">
-            <div className="section-heading">
+            <div className="section-heading" data-parallax-item="22">
               <p className="eyebrow">SO EINFACH GEHT’S</p>
               <h2 id="steps-title">
                 Scannen. Gestalten.
@@ -224,7 +246,7 @@ export function App() {
                       loading="lazy"
                     />
                   </div>
-                  <div className="step-copy">
+                  <div className="step-copy" data-parallax-item="18">
                     <span className="step-number">{step.number}</span>
                     <h3>{step.title}</h3>
                     <p>{step.description}</p>
@@ -237,7 +259,7 @@ export function App() {
 
         <section className="studio-section section-pad" id="kartenstudio" aria-labelledby="studio-title">
           <div className="container studio-layout">
-            <div className="studio-copy">
+            <div className="studio-copy" data-parallax-item="24">
               <p className="eyebrow">DEIN KARTENSTUDIO</p>
               <h2 id="studio-title">
                 Mach aus Kontaktdaten
@@ -284,7 +306,7 @@ export function App() {
                 loading="lazy"
               />
             </figure>
-            <div className="sharing-copy">
+            <div className="sharing-copy" data-parallax-item="24">
               <p className="eyebrow">BEREIT FÜR DEN MOMENT</p>
               <h2 id="sharing-title">
                 Zeigen. Teilen.
@@ -308,7 +330,7 @@ export function App() {
 
         <section className="use-cases-section section-pad" aria-labelledby="use-cases-title">
           <div className="container">
-            <div className="section-heading">
+            <div className="section-heading" data-parallax-item="20">
               <p className="eyebrow">MEHR ALS EINE KARTE</p>
               <h2 id="use-cases-title">
                 Verschiedene Rollen.
@@ -322,17 +344,17 @@ export function App() {
               </p>
             </div>
             <div className="use-cases-grid">
-              <article className="use-case-card">
+              <article className="use-case-card" data-parallax-item="16">
                 <span className="use-case-index">01 / BERUF</span>
                 <h3>Dein beruflicher Kontakt</h3>
                 <p>Mit den Angaben und Links, die bei einem Kundentermin oder Networking wichtig sind.</p>
               </article>
-              <article className="use-case-card">
+              <article className="use-case-card" data-parallax-item="22" data-parallax-direction="reverse">
                 <span className="use-case-index">02 / PROJEKTE</span>
                 <h3>Deine eigene Marke</h3>
                 <p>Eine eigene Karte für deine Selbstständigkeit, dein Unternehmen oder ein Projekt.</p>
               </article>
-              <article className="use-case-card">
+              <article className="use-case-card" data-parallax-item="16">
                 <span className="use-case-index">03 / PRIVAT</span>
                 <h3>Deine persönliche Karte</h3>
                 <p>Auch private Kontakte oder Karten für Vereine bleiben übersichtlich beieinander.</p>
@@ -347,7 +369,7 @@ export function App() {
           aria-labelledby="privacy-title"
         >
           <div className="container privacy-layout">
-            <div className="privacy-copy">
+            <div className="privacy-copy" data-parallax-item="22">
               <p className="eyebrow">DEINE KARTEN BLEIBEN BEI DIR</p>
               <h2 id="privacy-title">
                 Bereit, wenn du sie
@@ -383,7 +405,7 @@ export function App() {
 
         <section className="faq-section section-pad" aria-labelledby="faq-title">
           <div className="container faq-layout">
-            <div className="faq-heading">
+            <div className="faq-heading" data-parallax-item="20">
               <p className="eyebrow">GUT ZU WISSEN</p>
               <h2 id="faq-title">Häufige Fragen</h2>
               <p>Die wichtigsten Antworten rund um deine digitale Visitenkarte.</p>
@@ -415,7 +437,7 @@ export function App() {
 
         <section className="final-cta" aria-labelledby="cta-title">
           <div className="container final-cta-layout">
-            <div className="final-cta-copy">
+            <div className="final-cta-copy" data-parallax-item="24">
               <p className="eyebrow">ZEIG DEINE KARTE</p>
               <h2 id="cta-title">Bereit für deinen nächsten Auftritt?</h2>
               <p>

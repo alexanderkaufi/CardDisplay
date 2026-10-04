@@ -17,6 +17,12 @@
 - **iOS fit:** The viewport uses `viewport-fit=cover`; header and footer respect safe areas. Primary controls keep 44px touch targets, and the mobile navigation works at phone widths.
 - **Accessibility and behavior:** Reduced-motion settings disable parallax. Heading structure, image alt text, focus styles, skip link, anchor navigation, and expandable FAQ answers are present. Opened a FAQ item in the mobile preview to confirm its answer is readable.
 
+## Latest hero and motion update
+
+- Replaced the hero asset with the user-supplied GymMix card and iPhone image. The wide composition remains fully visible on phone and tablet widths; vertical image motion is clamped to the padded space above and below it.
+- Added parallax motion to section headings, copy blocks, and use-case cards as well as product imagery. Text and cards move less than imagery, with one reversed card for depth. The reduced-motion preference still disables all parallax.
+- Visually reviewed the local preview at desktop 1280×720, iPhone 390×844, and iPad portrait 820×1180. The mobile image retains its full composition and the hero content remains readable below it.
+
 ## Iteration
 
 - Replaced the earlier small, self-measuring image offsets with stronger offsets driven by the untransformed image frames.
