@@ -183,7 +183,7 @@ export function App() {
 
       <main id="main-content">
         <section className="hero" id="start" aria-labelledby="hero-title">
-          <div className="hero-art" data-parallax="100">
+          <div className="hero-art">
             <img
               src={asset("hero-carddisplay.jpg")}
               alt="Eine digitale GymMix-Visitenkarte neben einem iPhone mit CardDisplay."
@@ -191,13 +191,15 @@ export function App() {
             />
           </div>
 
-          <div className="container hero-copy" data-parallax-item="16">
-            <p className="eyebrow">ZEIG DEINE KARTE</p>
-            <h1 id="hero-title">
-              Deine Karte.
-              <br />
-              <span>Dein Auftritt.</span>
-            </h1>
+          <div className="container hero-copy">
+            <div className="hero-title-copy" data-parallax-item="40">
+              <p className="eyebrow">ZEIG DEINE KARTE</p>
+              <h1 id="hero-title">
+                Deine Karte.
+                <br />
+                <span>Dein Auftritt.</span>
+              </h1>
+            </div>
             <p className="hero-description">
               Importiere oder scanne vorhandene Karten. Gestalte neue Visitenkarten
               mit deinen Motiven und QR-Codes – und zeige alles direkt vom iPhone.

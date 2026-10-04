@@ -19,9 +19,9 @@
 
 ## Latest hero and motion update
 
-- Replaced the hero asset with the user-supplied GymMix card and iPhone image. The wide composition remains fully visible on phone and tablet widths; vertical image motion is clamped to the padded space above and below it.
-- Added parallax motion to section headings, copy blocks, and use-case cards as well as product imagery. Text and cards move less than imagery, with one reversed card for depth. The reduced-motion preference still disables all parallax.
-- Visually reviewed the local preview at desktop 1280×720, iPhone 390×844, and iPad portrait 820×1180. The mobile image retains its full composition and the hero content remains readable below it.
+- Replaced the hero asset with the user-supplied GymMix card and iPhone image. The wide composition remains fully visible on phone and tablet widths. The hero photo stays still; only the “Deine Karte. Dein Auftritt.” typography overlaps its lower edge and moves with parallax.
+- Added parallax motion to other section headings, copy blocks, and use-case cards as well as product imagery. Text and cards move less than imagery, with one reversed card for depth. The reduced-motion preference still disables all parallax.
+- Visually reviewed the local preview at desktop 1280×720, iPhone 390×844, and iPad portrait 820×1180. The hero composition remains visible, the title overlap is responsive, and description and buttons stay below the image without parallax movement.
 
 ## Iteration
 

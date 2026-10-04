@@ -225,8 +225,8 @@ img {
 .hero-art::after {
   position: absolute;
   inset: auto 0 0;
-  height: 12%;
-  background: linear-gradient(180deg, transparent, rgb(5 7 11 / 42%));
+  height: 56%;
+  background: linear-gradient(180deg, transparent, rgb(5 7 11 / 82%));
   content: "";
   pointer-events: none;
 }
@@ -253,10 +253,6 @@ img {
   transform-origin: center;
 }
 
-.hero-art[data-parallax] > img {
-  --parallax-scale-y: 1.12;
-}
-
 [data-parallax-item] {
   --parallax-y: 0px;
 
@@ -266,8 +262,15 @@ img {
 
 .hero-copy {
   position: relative;
+  z-index: 1;
+  margin-top: clamp(-180px, -13vw, -152px);
   padding-top: 4px;
   padding-bottom: clamp(92px, 10vw, 142px);
+}
+
+.hero-title-copy {
+  position: relative;
+  margin-bottom: 18px;
 }
 
 @media (min-width: 781px) {
@@ -873,8 +876,8 @@ h3 {
     padding-block: clamp(32px, 8vw, 42px);
   }
 
-  .hero-art[data-parallax] > img {
-    --parallax-scale-y: 1.08;
+  .hero-copy {
+    margin-top: clamp(-96px, -23vw, -84px);
   }
 
   .container {
