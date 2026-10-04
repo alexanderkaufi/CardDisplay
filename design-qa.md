@@ -4,23 +4,20 @@
 
 ## Direction and evidence
 
-- Implemented the user's selected concept 2: a dark, cinematic CardDisplay presentation built around the business card and iPhone.
-- Reference: `/Users/alkaufimacbook/.codex/generated_images/01a10387-ab7e-79a2-82fc-d671c70e3d75/exec-76e8e1b7-1404-4d5e-a071-8dc84eb16840.png`.
-- Reviewed the production preview at `http://127.0.0.1:4174/` in the Codex in-app browser. Viewports reviewed: desktop 1280×720, iPhone 390×844, iPad portrait 820×1180, and iPad landscape 1180×820.
+- Expanded the selected dark, cinematic concept and made the product story more complete.
+- Used the German App Store description in the Obsidian CardDisplay project notes as the source for feature copy.
+- Reviewed the production preview at `http://127.0.0.1:4174/` in desktop 1280×720, iPhone 390×844, iPad portrait 820×1180, and iPad landscape 1180×820 viewports.
 - Ran `npm run build`; Vite generated `dist/client/index.html`, hashed assets, `dist/server/index.js`, and `dist/.openai/hosting.json` successfully.
 
 ## Review
 
-- **Typography and copy:** German copy has a clear headline, supporting text, section labels, and calls to action. Text wraps cleanly at all three reviewed widths. Inter is requested with platform font fallbacks.
-- **Layout and spacing:** The hero, three feature steps, privacy section, final call to action, and footer retain a consistent dark product-presentation rhythm. Desktop feature cards form three columns; tablet and mobile stack content without horizontal overflow. The compact desktop viewport shows the beginning of the hero headline near the lower edge; the App Store action remains visible in the header.
-- **Color and surfaces:** Dark navy/black backgrounds, pale text, blue accents, and subtle separators match the selected direction. Buttons and photo frames retain contrast against the page.
-- **Images and icons:** The supplied CardDisplay app icon and in-app screenshot are used alongside generated imagery for scanning, card design, and sharing. No placeholder icons or CSS-drawn illustrations were introduced. Images keep useful alternative text and preserve their aspect ratio or intentional crop.
-- **Behavior and accessibility:** Navigation anchors, footer policy links, store links, skip link, and mobile menu are present. The mobile menu opened and closed through its navigation link; the link moved to the matching section and collapsed the menu. Focus-visible styling, semantic headings, labeled navigation, button state, and image alt text are in place.
-- **iPhone/iPad fit:** The viewport uses `viewport-fit=cover`; the header and footer respect iOS safe areas. Primary controls keep 44px touch targets. iPad portrait switches feature steps to image-and-copy rows; landscape returns to the three-column grid.
-- **Parallax motion:** Hero, feature, and final-section images move on scroll with small transform-only offsets scheduled through `requestAnimationFrame`. `prefers-reduced-motion` disables the transforms and smooth scrolling.
+- **Content:** The page now explains importing and scanning, card design, QR codes, front and back sides, drafts, sharing and PNG export, multiple cards, local storage, and common questions.
+- **Layout:** Added dedicated card-studio, sharing, use-case, and FAQ sections. On iPhone, process cards and feature sections use full-width imagery and stacked copy. iPad portrait uses compact image-and-copy rows where appropriate; landscape and desktop use wider grids.
+- **Parallax:** Images move at a visibly different rate from page scroll. Position is calculated from their stable clipping frames, and each offset is limited to the available vertical image bleed so the frames do not reveal empty edges.
+- **iOS fit:** The viewport uses `viewport-fit=cover`; header and footer respect safe areas. Primary controls keep 44px touch targets, and the mobile navigation works at phone widths.
+- **Accessibility and behavior:** Reduced-motion settings disable parallax. Heading structure, image alt text, focus styles, skip link, anchor navigation, and expandable FAQ answers are present. Opened a FAQ item in the mobile preview to confirm its answer is readable.
 
 ## Iteration
 
-- Adjusted the desktop hero crop and aspect ratio after the first browser review to bring the headline into the initial scroll path while keeping it clear of the card image.
-- Rebuilt and reviewed the production output after that adjustment.
-- Added a native-feeling pass with safe-area handling, touch sizing, an iPad portrait layout, and reduced-motion-aware parallax. Rebuilt and reviewed the production preview at iPhone and both iPad orientations.
+- Replaced the earlier small, self-measuring image offsets with stronger offsets driven by the untransformed image frames.
+- Expanded the page with product details grounded in the German App Store copy, then rebuilt and checked desktop, iPhone, and both iPad orientations.
