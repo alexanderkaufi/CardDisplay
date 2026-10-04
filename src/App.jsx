@@ -185,8 +185,8 @@ export function App() {
         <section className="hero" id="start" aria-labelledby="hero-title">
           <div className="hero-art">
             <img
-              src={asset("hero-carddisplay.jpg")}
-              alt="Eine digitale GymMix-Visitenkarte neben einem iPhone mit CardDisplay."
+              src={asset("hero-carddisplay-person.jpg")}
+              alt="Eine Person zeigt ihre CardDisplay-Visitenkarte auf dem iPhone."
               fetchPriority="high"
             />
           </div>
@@ -458,8 +458,8 @@ export function App() {
             </div>
             <div className="final-cta-art" data-parallax="72">
               <img
-                src={asset("design-front-back.jpg")}
-                alt="Zwei Seiten einer individuell gestalteten Visitenkarte."
+                src={asset("hero-carddisplay.jpg")}
+                alt="Eine digitale GymMix-Visitenkarte neben einem iPhone mit CardDisplay."
                 loading="lazy"
               />
             </div>

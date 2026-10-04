@@ -23,6 +23,13 @@
 - Added parallax motion to other section headings, copy blocks, and use-case cards as well as product imagery. Text and cards move less than imagery, with one reversed card for depth. The reduced-motion preference still disables all parallax.
 - Visually reviewed the local preview at desktop 1280×720, iPhone 390×844, and iPad portrait 820×1180. The hero composition remains visible, the title overlap is responsive, and description and buttons stay below the image without parallax movement.
 
+## Image placement update
+
+- Put the newly supplied photo of a person holding an iPhone at the top of the page, keeping the complete wide composition and the existing title-only parallax behavior.
+- Moved the dark GymMix/iPhone image into the final call-to-action section near the bottom.
+- Removed the repeated front/back card artwork from the final call-to-action; it now appears only in the card-studio section.
+- Set the lower image frame to the source image's wide aspect ratio to avoid cropping its composition.
+
 ## Iteration
 
 - Replaced the earlier small, self-measuring image offsets with stronger offsets driven by the untransformed image frames.
