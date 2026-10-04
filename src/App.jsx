@@ -19,16 +19,16 @@ const steps = [
     title: "Nach deinem Stil gestalten",
     description:
       "Platziere Texte, Bilder, Logos, Symbole und QR-Codes. Passe Farben und Schrift an und gestalte Vorder- und Rückseite individuell.",
-    image: "design-front-back.jpg",
-    alt: "Vorder- und Rückseite einer selbst gestalteten digitalen Visitenkarte.",
+    image: "carddisplay-app-screen.png",
+    alt: "Eine gestaltete GymMix-Karte in der CardDisplay-App.",
   },
   {
     number: "03",
     title: "Zeigen und teilen",
     description:
       "Präsentiere deine aktive Karte in der Vollbildansicht – hochkant oder quer. Teile sie über iOS oder exportiere dein Design als PNG.",
-    image: "show-share.jpg",
-    alt: "Eine Person zeigt ihre digitale Visitenkarte in CardDisplay auf dem iPhone.",
+    image: "design-front-back.jpg",
+    alt: "Eine gestaltete digitale Visitenkarte mit Vorder- und Rückseite.",
   },
 ];
 
@@ -288,26 +288,11 @@ export function App() {
                 </li>
               </ul>
             </div>
-            <figure className="studio-art" data-parallax="82">
-              <img
-                src={asset("design-front-back.jpg")}
-                alt="Individuell gestaltete Vorder- und Rückseite einer digitalen Visitenkarte mit QR-Code."
-                loading="lazy"
-              />
-              <figcaption>Vorderseite und Rückseite – passend zu deinem Design</figcaption>
-            </figure>
           </div>
         </section>
 
         <section className="sharing-section section-pad" aria-labelledby="sharing-title">
           <div className="container sharing-layout">
-            <figure className="sharing-art" data-parallax="78">
-              <img
-                src={asset("show-share.jpg")}
-                alt="Eine Person zeigt ihre CardDisplay-Visitenkarte auf dem iPhone."
-                loading="lazy"
-              />
-            </figure>
             <div className="sharing-copy" data-parallax-item="24">
               <p className="eyebrow">BEREIT FÜR DEN MOMENT</p>
               <h2 id="sharing-title">
@@ -394,14 +379,6 @@ export function App() {
               </a>
             </div>
 
-            <figure className="screen-preview">
-              <img
-                src={asset("carddisplay-app-screen.png")}
-                alt="CardDisplay zeigt eine gespeicherte Visitenkarte in der App."
-                loading="lazy"
-              />
-              <figcaption>Deine aktive Karte in CardDisplay</figcaption>
-            </figure>
           </div>
         </section>
 

@@ -27,8 +27,9 @@
 
 - Put the newly supplied photo of a person holding an iPhone at the top of the page, keeping the complete wide composition and the existing title-only parallax behavior.
 - Moved the dark GymMix/iPhone image into the final call-to-action section near the bottom.
-- Removed the repeated front/back card artwork from the final call-to-action; it now appears only in the card-studio section.
+- Reassigned the process images and removed repeated versions of the person-at-phone, front/back card, and app-screen artwork from the lower sections.
 - Set the lower image frame to the source image's wide aspect ratio to avoid cropping its composition.
+- Kept the studio, sharing, and privacy content in centered single-column layouts after removing their repeated photos.
 
 ## Iteration
 
