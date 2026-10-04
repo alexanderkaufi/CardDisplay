@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
 
 :root {
+  color-scheme: dark;
   font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   color: #f6f7fb;
   background: #05070b;
@@ -30,12 +31,13 @@
 html {
   min-width: 320px;
   scroll-behavior: smooth;
-  scroll-padding-top: 28px;
+  scroll-padding-top: calc(28px + env(safe-area-inset-top, 0px));
 }
 
 body {
   min-width: 320px;
   min-height: 100vh;
+  min-height: 100svh;
   margin: 0;
   background: var(--page);
 }
@@ -77,6 +79,7 @@ img {
 
 .site-shell {
   overflow: hidden;
+  min-height: 100svh;
   background:
     radial-gradient(ellipse at 50% 26%, rgb(14 37 71 / 14%), transparent 42rem),
     var(--page);
@@ -107,6 +110,7 @@ img {
   position: absolute;
   z-index: 20;
   inset: 0 0 auto;
+  padding-top: env(safe-area-inset-top, 0px);
   background: linear-gradient(180deg, rgb(3 5 10 / 82%), transparent);
 }
 
@@ -119,6 +123,7 @@ img {
 
 .brand {
   display: inline-flex;
+  min-height: 44px;
   align-items: center;
   gap: 12px;
   flex: 0 0 auto;
@@ -158,6 +163,10 @@ img {
 
 .menu-toggle {
   display: none;
+  min-width: 44px;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
   border: 1px solid var(--line);
   border-radius: 999px;
   padding: 10px 14px;
@@ -194,7 +203,7 @@ img {
 }
 
 .button-small {
-  min-height: 43px;
+  min-height: 44px;
   padding-inline: 18px;
   font-size: 13px;
 }
@@ -225,6 +234,18 @@ img {
   height: 100%;
   object-fit: cover;
   object-position: center;
+}
+
+[data-parallax] {
+  --parallax-y: 0px;
+  --parallax-scale: 1.05;
+
+  will-change: transform;
+  transform: translate3d(0, var(--parallax-y), 0) scale(var(--parallax-scale));
+}
+
+.hero-art img[data-parallax] {
+  --parallax-scale: 1.07;
 }
 
 .hero-copy {
@@ -369,11 +390,7 @@ h3 {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 400ms cubic-bezier(0.2, 0.7, 0.25, 1);
-}
-
-.step:hover .step-image img {
-  transform: scale(1.035);
+  --parallax-scale: 1.05;
 }
 
 .step-copy {
@@ -524,6 +541,7 @@ h3 {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  --parallax-scale: 1.06;
 }
 
 .site-footer {
@@ -700,12 +718,40 @@ h3 {
     min-height: 0;
     align-items: flex-start;
     flex-wrap: wrap;
-    padding-block: 30px;
+    padding: 30px 0 max(30px, env(safe-area-inset-bottom, 0px));
   }
 
   .footer-inner > p {
     order: 3;
     width: 100%;
+  }
+}
+
+@media (min-width: 781px) and (max-width: 940px) {
+  .steps-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .step {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    align-items: center;
+    gap: 28px;
+  }
+
+  .step-copy {
+    padding-top: 0;
+  }
+
+  .step-number {
+    margin-bottom: 11px;
+  }
+}
+
+@media (hover: none) {
+  .step-image img {
+    --parallax-scale: 1.05;
   }
 }
 
@@ -795,5 +841,10 @@ h3 {
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
+  }
+
+  [data-parallax] {
+    will-change: auto;
+    transform: none !important;
   }
 }

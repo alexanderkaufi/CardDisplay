@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const APP_STORE_URL = "https://apps.apple.com/app/id6756011983";
 const PRIVACY_URL = "https://bentosoftware.com/app-privacy";
@@ -35,6 +35,72 @@ const steps = [
 export function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const closeMenu = () => setMenuOpen(false);
+
+  useEffect(() => {
+    const targets = document.querySelectorAll("[data-parallax]");
+    const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let frame = 0;
+
+    const resetParallax = () => {
+      targets.forEach((target) => target.style.setProperty("--parallax-y", "0px"));
+    };
+
+    const updateParallax = () => {
+      if (frame) return;
+
+      frame = window.requestAnimationFrame(() => {
+        frame = 0;
+        if (motionPreference.matches) {
+          resetParallax();
+          return;
+        }
+
+        const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+        targets.forEach((target) => {
+          const bounds = target.getBoundingClientRect();
+          if (bounds.bottom < -80 || bounds.top > viewportHeight + 80) return;
+
+          const range = Math.min(Number(target.dataset.parallax) || 0, 28);
+          const progress = Math.max(
+            0,
+            Math.min(1, (viewportHeight - bounds.top) / (viewportHeight + bounds.height)),
+          );
+          const offset = (progress - 0.5) * 2 * range;
+          target.style.setProperty("--parallax-y", `${offset.toFixed(1)}px`);
+        });
+      });
+    };
+
+    const handleMotionPreference = () => {
+      if (motionPreference.matches) {
+        if (frame) window.cancelAnimationFrame(frame);
+        frame = 0;
+        resetParallax();
+        return;
+      }
+      updateParallax();
+    };
+
+    window.addEventListener("scroll", updateParallax, { passive: true });
+    window.addEventListener("resize", updateParallax, { passive: true });
+    if (motionPreference.addEventListener) {
+      motionPreference.addEventListener("change", handleMotionPreference);
+    } else {
+      motionPreference.addListener(handleMotionPreference);
+    }
+    updateParallax();
+
+    return () => {
+      window.removeEventListener("scroll", updateParallax);
+      window.removeEventListener("resize", updateParallax);
+      if (motionPreference.removeEventListener) {
+        motionPreference.removeEventListener("change", handleMotionPreference);
+      } else {
+        motionPreference.removeListener(handleMotionPreference);
+      }
+      if (frame) window.cancelAnimationFrame(frame);
+    };
+  }, []);
 
   return (
     <div className="site-shell">
@@ -89,6 +155,7 @@ export function App() {
             <img
               src={asset("hero-carddisplay.jpg")}
               alt="Eine digitale Visitenkarte und ein iPhone mit CardDisplay auf dunklem Untergrund."
+              data-parallax="24"
               fetchPriority="high"
             />
           </div>
@@ -142,7 +209,12 @@ export function App() {
               {steps.map((step) => (
                 <article className="step" key={step.number}>
                   <div className="step-image">
-                    <img src={asset(step.image)} alt={step.alt} loading="lazy" />
+                    <img
+                      src={asset(step.image)}
+                      alt={step.alt}
+                      data-parallax="12"
+                      loading="lazy"
+                    />
                   </div>
                   <div className="step-copy">
                     <span className="step-number">{step.number}</span>
@@ -216,6 +288,7 @@ export function App() {
               <img
                 src={asset("design-front-back.jpg")}
                 alt="Zwei Seiten einer individuell gestalteten Visitenkarte."
+                data-parallax="14"
                 loading="lazy"
               />
             </div>
