@@ -1,34 +1,33 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const APP_STORE_URL = "https://apps.apple.com/app/id6756011983";
 const PRIVACY_URL = "https://bentosoftware.com/app-privacy";
 const TERMS_URL = "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/";
+const CONTACT_URL = "https://bentosoftware.com/contact.html";
 const asset = (name) => import.meta.env.BASE_URL + "assets/" + name;
 
 const steps = [
   {
     number: "01",
     title: "Importieren oder scannen",
-    description:
-      "Übernimm ein Bild aus deiner Mediathek oder erfasse eine vorhandene Karte mit der Kamera. So ist sie schnell auf deinem iPhone griffbereit.",
+    description: "Wähle ein Kartenfoto oder erfasse eine Visitenkarte direkt mit der Kamera.",
     image: "scan-card.jpg",
     alt: "Eine Visitenkarte wird mit der iPhone-Kamera erfasst.",
   },
   {
     number: "02",
     title: "Nach deinem Stil gestalten",
-    description:
-      "Platziere Texte, Bilder, Logos, Symbole und QR-Codes. Passe Farben und Schrift an und gestalte Vorder- und Rückseite individuell.",
-    image: "carddisplay-app-screen.png",
+    description: "Gestalte Vorder- und Rückseite mit eigenen Texten, Bildern, Logos und QR-Codes.",
+    image: "carddisplay-app-screen.jpg",
     alt: "Eine gestaltete GymMix-Karte in der CardDisplay-App.",
   },
   {
     number: "03",
     title: "Zeigen und teilen",
     description:
-      "Präsentiere deine aktive Karte in der Vollbildansicht – hochkant oder quer. Teile sie über iOS oder exportiere dein Design als PNG.",
+      "Zeige deine Karte im Vollbild, teile sie über iOS oder exportiere sie als PNG.",
     image: "design-front-back.jpg",
-    alt: "Eine gestaltete digitale Visitenkarte mit Vorder- und Rückseite.",
+    alt: "Vorder- und Rückseite einer gestalteten GymMix-Visitenkarte.",
   },
 ];
 
@@ -36,22 +35,19 @@ const demoSteps = [
   {
     label: "Übernehmen",
     title: "Karte erfassen",
-    description:
-      "Wähle ein Kartenfoto aus oder erfasse eine bestehende Visitenkarte mit der Kamera.",
+    description: "Mara Kleins Karte wird fotografiert und als Ausgangspunkt übernommen.",
     appTitle: "Karte hinzufügen",
   },
   {
     label: "Gestalten",
     title: "Dein Design formen",
-    description:
-      "Ordne Text, Bild und QR-Code an. Passe Farben und Schrift an und gestalte beide Seiten.",
+    description: "Passe Text, Akzent und QR-Code auf derselben Karte an.",
     appTitle: "Kartenstudio",
   },
   {
     label: "Präsentieren",
     title: "Bereit zum Zeigen",
-    description:
-      "Öffne deine aktive Karte groß auf dem iPhone oder gib sie über iOS weiter.",
+    description: "Die fertige Karte lässt sich groß zeigen oder über iOS teilen.",
     appTitle: "Deine aktive Karte",
   },
 ];
@@ -65,6 +61,8 @@ const useCaseCards = [
     name: "MARA KLEIN",
     detail: "ARCHITEKTUR · MÜNCHEN",
     mark: "MK",
+    email: "mara@studio-nord.example",
+    website: "studio-nord.example",
   },
   {
     id: "project",
@@ -74,6 +72,8 @@ const useCaseCards = [
     name: "NOVA",
     detail: "DIGITAL STUDIO",
     mark: "✳",
+    email: "hallo@nova-studio.example",
+    website: "nova-studio.example",
   },
   {
     id: "private",
@@ -83,13 +83,35 @@ const useCaseCards = [
     name: "Mara & Jonas",
     detail: "SCHÖN, DICH KENNENZULERNEN",
     mark: "M + J",
+    email: "hallo@mara-jonas.example",
+    website: "mara-jonas.example",
   },
 ];
 
 export function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeDemo, setActiveDemo] = useState(0);
+  const demoTabRefs = useRef([]);
   const closeMenu = () => setMenuOpen(false);
+
+  const handleDemoTabKeyDown = (event, index) => {
+    let nextIndex = index;
+    if (event.key === "ArrowRight") {
+      nextIndex = (index + 1) % demoSteps.length;
+    } else if (event.key === "ArrowLeft") {
+      nextIndex = (index - 1 + demoSteps.length) % demoSteps.length;
+    } else if (event.key === "Home") {
+      nextIndex = 0;
+    } else if (event.key === "End") {
+      nextIndex = demoSteps.length - 1;
+    } else {
+      return;
+    }
+
+    event.preventDefault();
+    setActiveDemo(nextIndex);
+    demoTabRefs.current[nextIndex]?.focus();
+  };
 
   useEffect(() => {
     const targets = document.querySelectorAll("[data-parallax], [data-parallax-item]");
@@ -250,9 +272,9 @@ export function App() {
           </div>
 
           <div className="container hero-copy">
-            <div className="hero-title-copy" data-parallax-item="40">
-              <p className="eyebrow">ZEIG DEINE KARTE</p>
-              <h1 id="hero-title">
+            <div className="hero-title-copy">
+              <p className="eyebrow">FÜR DEINEN NÄCHSTEN KONTAKT</p>
+              <h1 id="hero-title" data-parallax-item="40">
                 Deine Karte.
                 <br />
                 <span>Dein Auftritt.</span>
@@ -276,23 +298,23 @@ export function App() {
               </a>
             </div>
             <p className="local-note">
-              Für Beruf, Projekte und private Kontakte · lokal auf deinem iPhone gespeichert
+              Für iPhone ab iOS 17.6 · 14 Tage kostenlos testen, danach Jahresabo
             </p>
           </div>
         </section>
 
         <section className="steps-section section-pad" id="ablauf" aria-labelledby="steps-title">
           <div className="container">
-            <div className="section-heading" data-parallax-item="22">
+            <div className="section-heading">
               <p className="eyebrow">SO EINFACH GEHT’S</p>
-              <h2 id="steps-title">
-                Scannen. Gestalten.
+              <h2 id="steps-title" data-parallax-item="14">
+                Von der Papierkarte
                 <br />
-                <span>Zeigen.</span>
+                <span>zum eigenen Design.</span>
               </h2>
               <p>
-                Von der vorhandenen Papierkarte bis zum eigenen Design: CardDisplay
-                bringt Import, Gestaltung und Präsentation an einen Ort.
+                Übernehmen, persönlich gestalten und im richtigen Moment zeigen –
+                alles direkt auf deinem iPhone.
               </p>
             </div>
 
@@ -306,9 +328,9 @@ export function App() {
                       loading="lazy"
                     />
                   </div>
-                  <div className="step-copy" data-parallax-item="18">
+                  <div className="step-copy">
                     <span className="step-number">{step.number}</span>
-                    <h3>{step.title}</h3>
+                    <h3 data-parallax-item="9">{step.title}</h3>
                     <p>{step.description}</p>
                   </div>
                 </article>
@@ -319,26 +341,29 @@ export function App() {
 
         <section className="demo-section section-pad" id="vorschau" aria-labelledby="demo-title">
           <div className="container demo-layout">
-            <div className="demo-copy" data-parallax-item="20">
+            <div className="demo-copy">
               <p className="eyebrow">EIN BLICK IN CARDDISPLAY</p>
-              <h2 id="demo-title">
-                Von der Idee
+              <h2 id="demo-title" data-parallax-item="16">
+                Drei Schritte.
                 <br />
-                <span>bis zum Auftritt.</span>
+                <span>Eine Karte.</span>
               </h2>
               <p>
-                Entdecke die wichtigsten Schritte in einer kleinen interaktiven
-                Vorschau. Tippe dich durch Übernahme, Gestaltung und Präsentation.
+                Tippe dich durch den Weg von der Papierkarte bis zum Teilen.
               </p>
-              <div className="demo-tabs" role="tablist" aria-label="CardDisplay Vorschau">
+              <div className="demo-tabs" role="tablist" aria-label="CardDisplay Vorschau" aria-orientation="horizontal">
                 {demoSteps.map((step, index) => (
                   <button
                     className={activeDemo === index ? "demo-tab is-active" : "demo-tab"}
                     key={step.label}
                     type="button"
                     role="tab"
+                    id={`demo-tab-${index}`}
                     aria-selected={activeDemo === index}
                     aria-controls="demo-preview"
+                    tabIndex={activeDemo === index ? 0 : -1}
+                    ref={(element) => { demoTabRefs.current[index] = element; }}
+                    onKeyDown={(event) => handleDemoTabKeyDown(event, index)}
                     onClick={() => setActiveDemo(index)}
                   >
                     <span className="demo-tab-index">0{index + 1}</span>
@@ -354,8 +379,8 @@ export function App() {
               </div>
             </div>
 
-            <div className="demo-stage" data-parallax-item="24">
-              <div className={`demo-device demo-device--step-${activeDemo}`} id="demo-preview" role="tabpanel">
+            <div className="demo-stage" data-parallax-item="12">
+              <div className={`demo-device demo-device--step-${activeDemo}`} id="demo-preview" role="tabpanel" aria-labelledby={`demo-tab-${activeDemo}`} tabIndex={0}>
                 <div className="demo-island" aria-hidden="true" />
                 <div className="demo-statusbar"><span>9:41</span><span>●●●　◉　▰</span></div>
                 <div className="demo-appbar">
@@ -377,7 +402,7 @@ export function App() {
                       <div className="scan-corner scan-corner--br" />
                       <div className="scan-sample-card">
                         <span className="scan-sample-mark">MK</span>
-                        <span><strong>Mara Klein</strong><small>Architektur & Raum</small></span>
+                        <span><strong>Mara Klein</strong><small>STUDIO NORD · MÜNCHEN</small><small>Architektur &amp; Raum</small></span>
                       </div>
                       <span className="scan-line" />
                     </div>
@@ -394,9 +419,9 @@ export function App() {
                     <div className="editor-toolbar"><span>‹ Zurück</span><span>Vorderseite　⌄</span><span>Fertig</span></div>
                     <div className="editor-canvas">
                       <div className="editor-card">
-                        <span className="editor-card-mark">N</span>
-                        <div><strong>NORD</strong><small>STUDIO FÜR RÄUME</small></div>
-                        <span className="editor-card-stamp">DESIGN<br />01</span>
+                        <span className="editor-card-mark">MK</span>
+                        <div><strong>Mara Klein</strong><small>ARCHITEKTUR &amp; RAUM</small></div>
+                        <span className="editor-card-stamp">STUDIO<br />NORD</span>
                       </div>
                       <span className="editor-handle editor-handle--one" />
                       <span className="editor-handle editor-handle--two" />
@@ -419,7 +444,7 @@ export function App() {
                       <strong>Mara<br />Klein<span>.</span></strong>
                       <span className="show-card-role">ARCHITEKTUR & RAUM</span>
                       <span className="show-card-rule" />
-                      <span className="show-card-contact">+49 89 123 45 67<br />studio-nord.de</span>
+                      <span className="show-card-contact">mara@studio-nord.example<br />studio-nord.example</span>
                       <span className="show-card-qr" aria-hidden="true"><i /><i /><i /><i /><i /><i /><i /><i /><i /></span>
                     </div>
                     <div className="show-screen-bottom"><span>Vorderseite</span><span className="show-side-toggle"><i /></span><span>Rückseite</span></div>
@@ -434,9 +459,9 @@ export function App() {
 
         <section className="studio-section section-pad" id="kartenstudio" aria-labelledby="studio-title">
           <div className="container studio-layout">
-            <div className="studio-copy" data-parallax-item="24">
+            <div className="studio-copy">
               <p className="eyebrow">DEIN KARTENSTUDIO</p>
-              <h2 id="studio-title">
+              <h2 id="studio-title" data-parallax-item="16">
                 Mach aus Kontaktdaten
                 <br />
                 <span>deinen Auftritt.</span>
@@ -476,9 +501,9 @@ export function App() {
 
         <section className="sharing-section section-pad" aria-labelledby="sharing-title">
           <div className="container sharing-layout">
-            <div className="sharing-copy" data-parallax-item="24">
+            <div className="sharing-copy">
               <p className="eyebrow">BEREIT FÜR DEN MOMENT</p>
-              <h2 id="sharing-title">
+              <h2 id="sharing-title" data-parallax-item="16">
                 Zeigen. Teilen.
                 <br />
                 <span>Weiterverbinden.</span>
@@ -512,30 +537,40 @@ export function App() {
 
         <section className="use-cases-section section-pad" aria-labelledby="use-cases-title">
           <div className="container">
-            <div className="section-heading" data-parallax-item="20">
+            <div className="section-heading">
               <p className="eyebrow">MEHR ALS EINE KARTE</p>
-              <h2 id="use-cases-title">
+              <h2 id="use-cases-title" data-parallax-item="14">
                 Verschiedene Rollen.
                 <br />
                 <span>Ein Platz dafür.</span>
               </h2>
               <p>
-                Speichere mehrere Karten und halte sie für unterschiedliche
-                Situationen bereit – ganz gleich, ob du beruflich, selbstständig
-                oder privat unterwegs bist.
+                Lege für Beruf, eigene Projekte und private Kontakte eigene Karten
+                an. Die Beispiele zeigen verschiedene Gestaltungsrichtungen.
               </p>
             </div>
+            <p className="use-case-note">Kontaktdaten und QR-Muster sind fiktive Beispiele.</p>
             <div className="use-cases-grid">
               {useCaseCards.map((card, index) => (
                 <article
                   className="use-case-card"
-                  data-parallax-item={index === 1 ? "22" : "16"}
-                  data-parallax-direction={index === 1 ? "reverse" : undefined}
                   key={card.id}
                 >
-                  <div className={`sample-card sample-card--${card.id}`} aria-hidden="true">
-                    <span className="sample-card-mark">{card.mark}</span>
-                    <span className="sample-card-copy"><strong>{card.name}</strong><small>{card.detail}</small></span>
+                  <div
+                    className={`sample-card sample-card--${card.id}`}
+                    data-parallax-item={index === 1 ? "16" : "12"}
+                    data-parallax-direction={index === 1 ? "reverse" : undefined}
+                    aria-hidden="true"
+                  >
+                    <span className="sample-card-top"><span className="sample-card-mark">{card.mark}</span><small>MUSTERKARTE</small></span>
+                    <span className="sample-card-copy">
+                      <strong>{card.name}</strong>
+                      <small>{card.detail}</small>
+                      <span>{card.email}</span>
+                      <span>{card.website}</span>
+                    </span>
+                    <span className="sample-card-qr"><i /><i /><i /><i /><i /><i /><i /><i /><i /><i /><i /><i /><i /><i /><i /><i /></span>
+                    <span className="sample-card-qr-label">QR-MUSTER</span>
                     <span className="sample-card-orbit" />
                   </div>
                   <span className="use-case-index">{card.label}</span>
@@ -553,9 +588,9 @@ export function App() {
           aria-labelledby="privacy-title"
         >
           <div className="container privacy-layout">
-            <div className="privacy-copy" data-parallax-item="22">
+            <div className="privacy-copy">
               <p className="eyebrow">DEINE KARTEN BLEIBEN BEI DIR</p>
-              <h2 id="privacy-title">
+              <h2 id="privacy-title" data-parallax-item="16">
                 Bereit, wenn du sie
                 <br />
                 <span>brauchst.</span>
@@ -590,9 +625,9 @@ export function App() {
 
         <section className="faq-section section-pad" aria-labelledby="faq-title">
           <div className="container faq-layout">
-            <div className="faq-heading" data-parallax-item="20">
+            <div className="faq-heading">
               <p className="eyebrow">GUT ZU WISSEN</p>
-              <h2 id="faq-title">Häufige Fragen</h2>
+              <h2 id="faq-title" data-parallax-item="12">Häufige Fragen</h2>
               <p>Die wichtigsten Antworten rund um deine digitale Visitenkarte.</p>
             </div>
             <div className="faq-list">
@@ -616,15 +651,23 @@ export function App() {
                 <summary>Wo speichert CardDisplay meine Designs?</summary>
                 <p>Karten, Entwürfe und Designdateien werden lokal im App-Speicher auf deinem Gerät abgelegt.</p>
               </details>
+              <details>
+                <summary>Was kostet CardDisplay nach der Testphase?</summary>
+                <p>CardDisplay lässt sich 14 Tage kostenlos testen. Danach ist für die weitere Nutzung ein Jahresabo erforderlich. Den gültigen Preis zeigt die App vor dem Kauf an.</p>
+              </details>
+              <details>
+                <summary>Funktioniert die App auch auf dem iPad?</summary>
+                <p>Die Website ist für iPad und iPhone angepasst. CardDisplay selbst ist nur fürs iPhone verfügbar und benötigt iOS 17.6 oder neuer.</p>
+              </details>
             </div>
           </div>
         </section>
 
         <section className="final-cta" aria-labelledby="cta-title">
           <div className="container final-cta-layout">
-            <div className="final-cta-copy" data-parallax-item="24">
+            <div className="final-cta-copy">
               <p className="eyebrow">ZEIG DEINE KARTE</p>
-              <h2 id="cta-title">Bereit für deinen nächsten Auftritt?</h2>
+              <h2 id="cta-title" data-parallax-item="16">Bereit für deinen nächsten Auftritt?</h2>
               <p>
                 Importiere deine bestehende Karte, gestalte ein eigenes Design
                 oder erstelle einen QR-Code für deine Kontaktdaten. CardDisplay
@@ -638,6 +681,7 @@ export function App() {
               >
                 CardDisplay im App Store
               </a>
+              <p className="store-note">14 Tage kostenlos testen · danach Jahresabo zum Preis, den die App vor dem Kauf anzeigt.</p>
             </div>
             <div className="final-cta-art" data-parallax="72">
               <img
@@ -663,6 +707,9 @@ export function App() {
             </a>
             <a href={TERMS_URL} target="_blank" rel="noreferrer">
               Nutzungsbedingungen
+            </a>
+            <a href={CONTACT_URL} target="_blank" rel="noreferrer">
+              Kontakt &amp; Support
             </a>
           </div>
         </div>

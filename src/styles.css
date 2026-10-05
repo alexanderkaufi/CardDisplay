@@ -1244,7 +1244,7 @@ h3 {
 
 .demo-section {
   position: relative;
-  overflow: hidden;
+  overflow: clip;
   border-block: 1px solid rgb(255 255 255 / 6%);
   background:
     radial-gradient(ellipse at 80% 46%, rgb(23 78 151 / 21%), transparent 34rem),
@@ -2109,4 +2109,446 @@ h3 {
   .privacy-visual { min-height: 390px; }
   .privacy-phone { width: 218px; min-height: 365px; }
   .privacy-callout { right: 10px; bottom: 27px; width: 58%; }
+}
+
+/* Keep the mobile hero photo generous while the title crosses only its lower edge. */
+@media (max-width: 780px) {
+  .hero-art {
+    aspect-ratio: 1.38 / 1;
+    padding: 0;
+  }
+
+  .hero-art img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 32% 48%;
+  }
+
+  .hero-art::after {
+    height: 34%;
+  }
+
+  .hero-copy {
+    margin-top: -54px;
+  }
+}
+
+/* The short process overview leads into the detailed, interactive walkthrough. */
+@media (max-width: 520px) {
+  .steps-section.section-pad,
+  .demo-section.section-pad,
+  .studio-section.section-pad,
+  .sharing-section.section-pad,
+  .use-cases-section.section-pad,
+  .privacy-section.section-pad,
+  .faq-section.section-pad {
+    padding-block: 58px;
+  }
+
+  .steps-grid {
+    gap: 16px;
+  }
+
+  .step {
+    grid-template-columns: 92px minmax(0, 1fr);
+    gap: 16px;
+  }
+
+  .step-image {
+    aspect-ratio: 1 / 1;
+    border-radius: 14px;
+  }
+
+  .step-image[data-parallax] > img {
+    --parallax-scale-y: 1.18;
+  }
+
+  .step-copy {
+    align-self: center;
+  }
+
+  .step-number {
+    margin-bottom: 5px;
+    font-size: 10px;
+  }
+
+  .step h3 {
+    margin-bottom: 6px;
+    font-size: 16px;
+    line-height: 1.2;
+  }
+
+  .step p {
+    margin-bottom: 0;
+    font-size: 12px;
+    line-height: 1.45;
+  }
+}
+
+/* A compact horizontal stepper brings the selected card closer to its controls. */
+.demo-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  border-top: 0;
+}
+
+.demo-tab,
+.demo-tab:hover,
+.demo-tab.is-active {
+  min-height: 62px;
+  grid-template-columns: 1fr;
+  align-content: center;
+  justify-items: start;
+  gap: 3px;
+  border: 1px solid rgb(255 255 255 / 10%);
+  border-radius: 13px;
+  padding: 8px 11px;
+  background: rgb(255 255 255 / 2%);
+  font-size: 13px;
+  line-height: 1.15;
+  transition: border-color 160ms ease, background-color 160ms ease, color 160ms ease;
+}
+
+.demo-tab:hover,
+.demo-tab.is-active {
+  border-color: rgb(105 167 255 / 42%);
+  background: rgb(45 103 177 / 15%);
+}
+
+.demo-tab-index {
+  font-size: 10px;
+}
+
+.demo-tab-arrow {
+  display: none;
+}
+
+.demo-copy > p:not(.eyebrow) {
+  margin-bottom: 18px;
+  line-height: 1.58;
+}
+
+.demo-caption {
+  margin-top: 14px;
+}
+
+.demo-caption p {
+  margin-top: 4px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.editor-card {
+  color: #f3ead7;
+  background: linear-gradient(145deg, #182c3d, #293b4b 62%, #7997a7 62%);
+}
+
+.editor-card-mark {
+  flex: 0 0 38px;
+  width: 38px;
+  height: 38px;
+  color: #f3ead7;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.editor-card strong {
+  font-family: Georgia, serif;
+  font-size: clamp(15px, 4.3vw, 20px);
+  font-weight: 400;
+  letter-spacing: -0.035em;
+}
+
+.editor-card small {
+  font-size: 6px;
+  letter-spacing: 0.08em;
+}
+
+.editor-card-stamp {
+  color: #d4dee4;
+}
+
+@media (max-width: 780px) {
+  .demo-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+
+  .demo-copy {
+    display: contents;
+  }
+
+  .demo-copy h2 {
+    margin-bottom: 13px;
+    font-size: clamp(36px, 9vw, 48px);
+  }
+
+  .demo-stage {
+    display: block;
+    min-height: 0;
+    margin-top: 0;
+  }
+
+  .demo-device {
+    width: min(100%, 350px);
+    height: 500px;
+    margin-inline: auto;
+  }
+
+  .demo-footnote {
+    position: static;
+    margin-top: 10px;
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 520px) {
+  .demo-section.section-pad {
+    padding-block: 54px;
+  }
+
+  .demo-layout {
+    row-gap: 0;
+  }
+
+  .demo-copy h2 {
+    font-size: 37px;
+  }
+
+  .demo-copy > p:not(.eyebrow) {
+    margin-bottom: 14px;
+    font-size: 14px;
+  }
+
+  .demo-tabs {
+    position: sticky;
+    z-index: 5;
+    top: max(8px, env(safe-area-inset-top, 0px));
+    gap: 6px;
+    margin: 0 -5px;
+    border-radius: 15px;
+    padding: 5px;
+    background: rgb(8 12 20 / 93%);
+    box-shadow: 0 9px 24px rgb(0 0 0 / 30%);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+
+  .demo-tab,
+  .demo-tab:hover,
+  .demo-tab.is-active {
+    min-height: 56px;
+    border-radius: 11px;
+    padding: 7px 9px;
+    font-size: 12px;
+  }
+
+  .demo-caption {
+    margin-top: 11px;
+  }
+
+  .demo-stage {
+    margin-top: 1px;
+  }
+
+  .demo-device {
+    width: min(100%, 340px);
+    height: 465px;
+    border-width: 7px;
+    border-radius: 40px;
+    padding: 9px 11px 12px;
+  }
+
+  .demo-screen {
+    height: calc(100% - 82px);
+  }
+
+  .demo-screen-footer {
+    height: 61px;
+  }
+
+  .scan-window {
+    min-height: 176px;
+  }
+
+  .editor-canvas {
+    min-height: 164px;
+  }
+
+  .editor-tools span {
+    min-height: 47px;
+  }
+
+  .show-card {
+    min-height: 173px;
+    margin-block: 13px 11px;
+    padding: 17px;
+  }
+
+  .show-card-kicker {
+    margin-bottom: 14px;
+  }
+
+  .show-card > strong {
+    font-size: 37px;
+  }
+
+  .show-card-role {
+    margin-top: 9px;
+  }
+
+  .show-card-rule {
+    margin-block: 12px 7px;
+  }
+
+  .show-card-qr {
+    right: 13px;
+    bottom: 13px;
+    width: 38px;
+    height: 38px;
+  }
+
+  .show-share-pill {
+    min-height: 34px;
+    margin-top: 10px;
+  }
+}
+
+.sample-card {
+  padding: 13px;
+}
+
+.sample-card-top {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sample-card-top > small {
+  font-size: 6px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  opacity: 0.6;
+}
+
+.sample-card-copy {
+  gap: 3px;
+  padding-right: 45px;
+}
+
+.sample-card-copy > span {
+  overflow: hidden;
+  font-size: 8px;
+  line-height: 1.35;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sample-card-copy > span:last-child {
+  opacity: 0.72;
+}
+
+.sample-card-qr {
+  position: absolute;
+  z-index: 1;
+  right: 13px;
+  bottom: 13px;
+  display: grid;
+  width: 36px;
+  height: 36px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+  border: 3px solid white;
+  border-radius: 3px;
+  padding: 2px;
+  background: white;
+}
+
+.sample-card-qr i {
+  background: #162335;
+}
+
+.sample-card-qr i:nth-child(3n + 2),
+.sample-card-qr i:nth-child(4n + 1) {
+  background: transparent;
+}
+
+.sample-card-qr-label {
+  position: absolute;
+  z-index: 1;
+  right: 9px;
+  bottom: 4px;
+  color: inherit;
+  font-size: 5px;
+  opacity: 0.68;
+}
+
+.store-note {
+  max-width: 480px;
+  margin: 13px 0 0;
+  color: #9faec3;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.use-case-note {
+  margin: -28px 0 20px;
+  color: #8d99ac;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.faq-list summary:focus-visible,
+.demo-tab:focus-visible {
+  outline-offset: 3px;
+}
+
+@media (max-width: 520px) {
+  .use-case-card {
+    padding: 17px;
+  }
+
+  .sample-card {
+    aspect-ratio: 1.72 / 1;
+    margin-bottom: 17px;
+    padding: 12px;
+  }
+
+  .sample-card-copy {
+    gap: 2px;
+  }
+
+  .sample-card-copy strong {
+    font-size: 14px;
+  }
+
+  .sample-card-copy > span {
+    font-size: 7px;
+  }
+
+  .sample-card-qr {
+    right: 11px;
+    bottom: 11px;
+    width: 32px;
+    height: 32px;
+  }
+
+  .sample-card-qr-label {
+    right: 7px;
+    bottom: 3px;
+  }
+
+  .store-note {
+    font-size: 11px;
+  }
+
+  .use-case-note {
+    margin: -18px 0 16px;
+    font-size: 10px;
+  }
 }
