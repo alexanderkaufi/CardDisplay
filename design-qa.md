@@ -35,3 +35,11 @@
 
 - Replaced the earlier small, self-measuring image offsets with stronger offsets driven by the untransformed image frames.
 - Expanded the page with product details grounded in the German App Store copy, then rebuilt and checked desktop, iPhone, and both iPad orientations.
+
+## Interactive preview and example cards
+
+- Added a three-stage interactive preview for taking or importing a card photo, arranging card elements in the editor, and presenting or sharing a finished card. The preview is labeled as an example rather than an actual screen recording.
+- Added three distinct CSS card concepts for professional, project, and private use. These are visual design examples, not additional app-provided cards or repeated photo assets.
+- Added original interface illustrations beside the card studio, sharing, and on-device storage descriptions. Existing product photography remains in its original single-use locations.
+- Added a translucent backed desktop navigation for contrast over the hero and included the new preview in the mobile menu.
+- Confirmed the build with `npm run build` and visually reviewed the interactive stages at desktop 1280×720, iPhone 390×844, and iPad portrait 820×1180. Tapped through all three demo stages and checked the phone menu overlay.

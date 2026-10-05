@@ -32,8 +32,63 @@ const steps = [
   },
 ];
 
+const demoSteps = [
+  {
+    label: "Übernehmen",
+    title: "Karte erfassen",
+    description:
+      "Wähle ein Kartenfoto aus oder erfasse eine bestehende Visitenkarte mit der Kamera.",
+    appTitle: "Karte hinzufügen",
+  },
+  {
+    label: "Gestalten",
+    title: "Dein Design formen",
+    description:
+      "Ordne Text, Bild und QR-Code an. Passe Farben und Schrift an und gestalte beide Seiten.",
+    appTitle: "Kartenstudio",
+  },
+  {
+    label: "Präsentieren",
+    title: "Bereit zum Zeigen",
+    description:
+      "Öffne deine aktive Karte groß auf dem iPhone oder gib sie über iOS weiter.",
+    appTitle: "Deine aktive Karte",
+  },
+];
+
+const useCaseCards = [
+  {
+    id: "career",
+    label: "01 / BERUF",
+    title: "Dein beruflicher Kontakt",
+    description: "Kontaktdaten und Links, die bei Kundenterminen und Networking zählen.",
+    name: "MARA KLEIN",
+    detail: "ARCHITEKTUR · MÜNCHEN",
+    mark: "MK",
+  },
+  {
+    id: "project",
+    label: "02 / PROJEKTE",
+    title: "Deine eigene Marke",
+    description: "Ein eigenständiger Auftritt für dein Unternehmen oder dein nächstes Projekt.",
+    name: "NOVA",
+    detail: "DIGITAL STUDIO",
+    mark: "✳",
+  },
+  {
+    id: "private",
+    label: "03 / PRIVAT",
+    title: "Deine persönliche Karte",
+    description: "Auch private Kontakte, Hobbys und Vereinsleben bleiben an einem Ort.",
+    name: "Mara & Jonas",
+    detail: "SCHÖN, DICH KENNENZULERNEN",
+    mark: "M + J",
+  },
+];
+
 export function App() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [activeDemo, setActiveDemo] = useState(0);
   const closeMenu = () => setMenuOpen(false);
 
   useEffect(() => {
@@ -162,6 +217,9 @@ export function App() {
             <a href="#ablauf" onClick={closeMenu}>
               So funktioniert’s
             </a>
+            <a href="#vorschau" onClick={closeMenu}>
+              Vorschau
+            </a>
             <a href="#kartenstudio" onClick={closeMenu}>
               Kartenstudio
             </a>
@@ -259,6 +317,121 @@ export function App() {
           </div>
         </section>
 
+        <section className="demo-section section-pad" id="vorschau" aria-labelledby="demo-title">
+          <div className="container demo-layout">
+            <div className="demo-copy" data-parallax-item="20">
+              <p className="eyebrow">EIN BLICK IN CARDDISPLAY</p>
+              <h2 id="demo-title">
+                Von der Idee
+                <br />
+                <span>bis zum Auftritt.</span>
+              </h2>
+              <p>
+                Entdecke die wichtigsten Schritte in einer kleinen interaktiven
+                Vorschau. Tippe dich durch Übernahme, Gestaltung und Präsentation.
+              </p>
+              <div className="demo-tabs" role="tablist" aria-label="CardDisplay Vorschau">
+                {demoSteps.map((step, index) => (
+                  <button
+                    className={activeDemo === index ? "demo-tab is-active" : "demo-tab"}
+                    key={step.label}
+                    type="button"
+                    role="tab"
+                    aria-selected={activeDemo === index}
+                    aria-controls="demo-preview"
+                    onClick={() => setActiveDemo(index)}
+                  >
+                    <span className="demo-tab-index">0{index + 1}</span>
+                    <span>{step.label}</span>
+                    <span className="demo-tab-arrow" aria-hidden="true">↗</span>
+                  </button>
+                ))}
+              </div>
+              <div className="demo-caption" aria-live="polite">
+                <span className="demo-live-dot" />
+                <span>{demoSteps[activeDemo].title}</span>
+                <p>{demoSteps[activeDemo].description}</p>
+              </div>
+            </div>
+
+            <div className="demo-stage" data-parallax-item="24">
+              <div className={`demo-device demo-device--step-${activeDemo}`} id="demo-preview" role="tabpanel">
+                <div className="demo-island" aria-hidden="true" />
+                <div className="demo-statusbar"><span>9:41</span><span>●●●　◉　▰</span></div>
+                <div className="demo-appbar">
+                  <span className="demo-app-icon">C</span>
+                  <span>{demoSteps[activeDemo].appTitle}</span>
+                  <span className="demo-app-menu">···</span>
+                </div>
+
+                {activeDemo === 0 && (
+                  <div className="demo-screen demo-screen--scan">
+                    <div className="demo-screen-heading">
+                      <span>Bestehende Karte</span>
+                      <strong>Foto aufnehmen oder wählen</strong>
+                    </div>
+                    <div className="scan-window">
+                      <div className="scan-corner scan-corner--tl" />
+                      <div className="scan-corner scan-corner--tr" />
+                      <div className="scan-corner scan-corner--bl" />
+                      <div className="scan-corner scan-corner--br" />
+                      <div className="scan-sample-card">
+                        <span className="scan-sample-mark">MK</span>
+                        <span><strong>Mara Klein</strong><small>Architektur & Raum</small></span>
+                      </div>
+                      <span className="scan-line" />
+                    </div>
+                    <div className="demo-screen-footer">
+                      <span className="demo-gallery-icon">▧</span>
+                      <span className="demo-shutter" />
+                      <span className="demo-flash-icon">✳</span>
+                    </div>
+                  </div>
+                )}
+
+                {activeDemo === 1 && (
+                  <div className="demo-screen demo-screen--edit">
+                    <div className="editor-toolbar"><span>‹ Zurück</span><span>Vorderseite　⌄</span><span>Fertig</span></div>
+                    <div className="editor-canvas">
+                      <div className="editor-card">
+                        <span className="editor-card-mark">N</span>
+                        <div><strong>NORD</strong><small>STUDIO FÜR RÄUME</small></div>
+                        <span className="editor-card-stamp">DESIGN<br />01</span>
+                      </div>
+                      <span className="editor-handle editor-handle--one" />
+                      <span className="editor-handle editor-handle--two" />
+                      <span className="editor-handle editor-handle--three" />
+                      <span className="editor-handle editor-handle--four" />
+                    </div>
+                    <div className="editor-tools">
+                      <span><b>T</b> Text</span><span><b>◈</b> Bild</span><span><b>▦</b> QR-Code</span><span><b>◐</b> Stil</span>
+                    </div>
+                    <p className="editor-save"><span /> Entwurf gespeichert</p>
+                  </div>
+                )}
+
+                {activeDemo === 2 && (
+                  <div className="demo-screen demo-screen--show">
+                    <div className="show-screen-tools"><span>☼</span><span>Vorderseite</span><span>↗</span></div>
+                    <div className="show-card">
+                      <span className="show-card-orbit" />
+                      <span className="show-card-kicker">STUDIO NORD　·　MÜNCHEN</span>
+                      <strong>Mara<br />Klein<span>.</span></strong>
+                      <span className="show-card-role">ARCHITEKTUR & RAUM</span>
+                      <span className="show-card-rule" />
+                      <span className="show-card-contact">+49 89 123 45 67<br />studio-nord.de</span>
+                      <span className="show-card-qr" aria-hidden="true"><i /><i /><i /><i /><i /><i /><i /><i /><i /></span>
+                    </div>
+                    <div className="show-screen-bottom"><span>Vorderseite</span><span className="show-side-toggle"><i /></span><span>Rückseite</span></div>
+                    <div className="show-share-pill"><span>↑</span> Karte teilen</div>
+                  </div>
+                )}
+              </div>
+              <p className="demo-footnote">Interaktive Produktvorschau · beispielhafte Kartenansicht</p>
+            </div>
+          </div>
+        </section>
+
         <section className="studio-section section-pad" id="kartenstudio" aria-labelledby="studio-title">
           <div className="container studio-layout">
             <div className="studio-copy" data-parallax-item="24">
@@ -288,6 +461,16 @@ export function App() {
                 </li>
               </ul>
             </div>
+            <div className="studio-visual" data-parallax-item="22" role="img" aria-label="Gestaltungselemente für eine Karte: Text, Bild, QR-Code und Farbpalette">
+              <div className="studio-visual-top"><span>DESIGN-LEINWAND</span><span>VORDERSEITE <i /> RÜCKSEITE</span></div>
+              <div className="studio-layer-stack">
+                <div className="studio-layer studio-layer--back"><span>04</span><b>QR-Code</b><i>▦</i></div>
+                <div className="studio-layer studio-layer--mid"><span>03</span><b>Logo & Bild</b><i>◈</i></div>
+                <div className="studio-layer studio-layer--front"><span>02</span><b>Text und Schrift</b><i>Tt</i></div>
+              </div>
+              <div className="studio-palette"><span>FARBE WÄHLEN</span><i /><i /><i /><i /><b>+</b></div>
+              <div className="studio-visual-note"><span>01</span><span>Elemente frei anordnen</span></div>
+            </div>
           </div>
         </section>
 
@@ -312,6 +495,18 @@ export function App() {
                 <span>PNG-Export</span>
               </div>
             </div>
+            <div className="sharing-visual" data-parallax-item="18" role="img" aria-label="Vorschau der Kartenansicht und des iOS-Teilen-Menüs">
+              <div className="sharing-preview-card">
+                <span className="sharing-card-eyebrow">CARD DISPLAY</span>
+                <strong>Dein Kontakt.<br /><i>Dein Stil.</i></strong>
+                <span className="sharing-card-footer"><span>Visitenkarte</span><b>↗</b></span>
+              </div>
+              <div className="sharing-sheet">
+                <div className="sharing-sheet-grabber" />
+                <div className="sharing-sheet-head"><span className="sharing-sheet-icon">↗</span><span><b>Karte teilen</b><small>Visitenkarte · PNG</small></span></div>
+                <div className="sharing-destinations"><span><i>◉</i>AirDrop</span><span><i>✉</i>Nachrichten</span><span><i>•••</i>Mehr</span></div>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -331,21 +526,23 @@ export function App() {
               </p>
             </div>
             <div className="use-cases-grid">
-              <article className="use-case-card" data-parallax-item="16">
-                <span className="use-case-index">01 / BERUF</span>
-                <h3>Dein beruflicher Kontakt</h3>
-                <p>Mit den Angaben und Links, die bei einem Kundentermin oder Networking wichtig sind.</p>
-              </article>
-              <article className="use-case-card" data-parallax-item="22" data-parallax-direction="reverse">
-                <span className="use-case-index">02 / PROJEKTE</span>
-                <h3>Deine eigene Marke</h3>
-                <p>Eine eigene Karte für deine Selbstständigkeit, dein Unternehmen oder ein Projekt.</p>
-              </article>
-              <article className="use-case-card" data-parallax-item="16">
-                <span className="use-case-index">03 / PRIVAT</span>
-                <h3>Deine persönliche Karte</h3>
-                <p>Auch private Kontakte oder Karten für Vereine bleiben übersichtlich beieinander.</p>
-              </article>
+              {useCaseCards.map((card, index) => (
+                <article
+                  className="use-case-card"
+                  data-parallax-item={index === 1 ? "22" : "16"}
+                  data-parallax-direction={index === 1 ? "reverse" : undefined}
+                  key={card.id}
+                >
+                  <div className={`sample-card sample-card--${card.id}`} aria-hidden="true">
+                    <span className="sample-card-mark">{card.mark}</span>
+                    <span className="sample-card-copy"><strong>{card.name}</strong><small>{card.detail}</small></span>
+                    <span className="sample-card-orbit" />
+                  </div>
+                  <span className="use-case-index">{card.label}</span>
+                  <h3>{card.title}</h3>
+                  <p>{card.description}</p>
+                </article>
+              ))}
             </div>
           </div>
         </section>
@@ -378,7 +575,16 @@ export function App() {
                 Datenschutzinformationen
               </a>
             </div>
-
+            <div className="privacy-visual" data-parallax-item="18" role="img" aria-label="CardDisplay auf dem iPhone, mit lokal gespeicherten Kartenentwürfen">
+              <div className="privacy-phone">
+                <div className="privacy-phone-island" />
+                <div className="privacy-phone-head"><span>9:41</span><span>•••　◉　▰</span></div>
+                <div className="privacy-phone-title"><span>CardDisplay</span><b>⚙</b></div>
+                <div className="privacy-card-mini"><span>MEINE KARTEN</span><b>Studio Nord</b><small>Entwurf · lokal auf diesem iPhone</small><i /></div>
+                <div className="privacy-lock"><span>✓</span></div>
+              </div>
+              <div className="privacy-callout"><span className="privacy-callout-icon">⌂</span><span><b>Dein Gerät, deine Dateien</b><small>Karten und Entwürfe bleiben im App-Speicher.</small></span></div>
+            </div>
           </div>
         </section>
 
